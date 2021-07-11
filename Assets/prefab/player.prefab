@@ -266,6 +266,8 @@ MonoBehaviour:
   leftPosition: {fileID: 3067557513514950408}
   centerPosition: {fileID: 6464835256268072761}
   rightPosition: {fileID: 6170109720601470883}
+  forwardMovementSpeed: 1
+  jumpforce: 5
 --- !u!54 &5311938351906381952
 Rigidbody:
   m_ObjectHideFlags: 0
