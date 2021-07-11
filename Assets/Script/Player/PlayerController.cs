@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum playerPositionState { left, right, center, grounded, inAir }
+public enum playerPositionState { left, right, center}
 
 
 public class PlayerController : MonoBehaviour
 {
 
     private Rigidbody playerRigidBody;
-    private float horizontal;
+    private Vector3 direction;
 
     [SerializeField] private Transform leftPosition;
     [SerializeField] private Transform centerPosition;
@@ -19,11 +19,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private float forwardMovementSpeed=1f;
     [SerializeField] private float jumpforce=10f;
 
+    private float gravity = -20;
+
+
     private  Vector3 InitialPosition;
     private  Vector3 finalPosition;
     private float dragValue;
 
     private playerPositionState playerCurrentState;
+    private bool isGrounded;
 
     private void Start()
     {
@@ -32,11 +36,13 @@ public class PlayerController : MonoBehaviour
         playerCurrentState = playerPositionState.center;
 
         dragValue = Screen.width / 20;
+
+        direction = new Vector3(0,0,forwardMovementSpeed);
     }
 
     private void FixedUpdate()
     {
-        playerRigidBody.transform.Translate(horizontal, 0, forwardMovementSpeed);
+        playerRigidBody.transform.Translate(direction);
     }
 
     void Update()
@@ -49,7 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         //TODO: use a better system for groun check
         //cheap but will work for now
-        playerCurrentState = (transform.position.y == 0f) ? playerPositionState.grounded : playerPositionState.inAir;
+        isGrounded = (transform.position.y <= 0f) ? true : false;
     }
 
     private void checkForSwipeInput()
@@ -123,13 +129,10 @@ public class PlayerController : MonoBehaviour
 
     private void jump()
     {
-        if(playerCurrentState == playerPositionState.grounded)
+        if(isGrounded)
         {
-            playerCurrentState = playerPositionState.inAir;
-
-            Vector3 direction = Vector3.zero;
-            direction = Vector3.forward * jumpforce;
-            playerRigidBody.AddForce(direction * Time.fixedDeltaTime, ForceMode.Acceleration);
+            isGrounded = false;
+            playerRigidBody.AddForce(Vector3.up * jumpforce , ForceMode.Impulse);
         }
     }
 }
