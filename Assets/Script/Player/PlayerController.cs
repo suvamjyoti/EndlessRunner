@@ -135,4 +135,10 @@ public class PlayerController : MonoBehaviour
             playerRigidBody.AddForce(Vector3.up * jumpforce , ForceMode.Impulse);
         }
     }
+
+
+    public void AddDamage()
+    {
+        //this.gameObject.SetActive(false);
+    }
 }

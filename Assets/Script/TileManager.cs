@@ -19,8 +19,15 @@ public class TileManager : MonoBehaviour
     {
         for(int i=0;i<tileList.Count;i++)
         {
-            SpawnTile(tileList[i]);
-            tileQueue.Enqueue(tileList[i]);
+            if (i==0)
+            {
+                SpawnTile(tileList[0]);
+            }
+            else
+            {
+                SpawnTile(tileList[i]);
+            }
+            
         }
         
     }
@@ -28,18 +35,28 @@ public class TileManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (distance > 500)
+        {
+            if (player.transform.position.z > distance - 290)
+            {
+                moveTile();
+                moveTile();
+            }
+        }
+
     }
 
     private void SpawnTile(GameObject tile)
     {
-        Instantiate(tile,transform.forward*distance,transform.rotation);
+        GameObject tileObject = Instantiate(tile,transform.forward*distance,transform.rotation);
+        tileQueue.Enqueue(tileObject);
         distance += tileLength;
     }
 
     private void moveTile()
     {
         GameObject tile = tileQueue.Dequeue();
+        Debug.Log($"{tile.name}");
         tile.transform.position = transform.forward * distance;
         distance += tileLength;
         tile.transform.rotation = transform.rotation;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8474674402031133307}
   - component: {fileID: 8937221359914643993}
   - component: {fileID: 2381397422324967606}
+  - component: {fileID: 680006782431119816}
   m_Layer: 0
   m_Name: SwipeObstacle
   m_TagString: Untagged
@@ -93,3 +94,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &680006782431119816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7296566785163531212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359191a674e7bb746b02067a0456189c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
