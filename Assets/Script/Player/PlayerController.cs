@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
 
     private Rigidbody playerRigidBody;
+    private PlayerHealth playerHealth;
     private Vector3 direction;
 
     [SerializeField] private Transform leftPosition;
@@ -31,7 +32,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        playerRigidBody = this.GetComponent<Rigidbody>();
+        playerRigidBody = GetComponent<Rigidbody>();
+        playerHealth = GetComponent<PlayerHealth>();
         transform.position = centerPosition.position;
         playerCurrentState = playerPositionState.center;
 
@@ -139,6 +141,14 @@ public class PlayerController : MonoBehaviour
 
     public void AddDamage()
     {
-        //this.gameObject.SetActive(false);
+        if (playerHealth.currentHealth >= 1)
+        {
+            playerHealth.OnDamage();
+            return;
+        }
+
+        //disable character
+        gameObject.SetActive(false);
+        //show gameOver popUp
     }
 }
