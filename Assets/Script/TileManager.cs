@@ -37,7 +37,7 @@ public class TileManager : MonoBehaviour
     {
         if (distance > 500)
         {
-            if (player.transform.position.z > distance - 290)
+            if (player.transform.position.z > distance - 400)
             {
                 moveTile();
                 moveTile();

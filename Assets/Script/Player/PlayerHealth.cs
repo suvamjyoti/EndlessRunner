@@ -11,7 +11,12 @@ public class PlayerHealth : MonoBehaviour
     public int currentHealth { get { return _currentHealth; } }
 
     [SerializeField] private Image[] heartsprites;
-    //[SerializeField] private Sprite heartSprite;
+    [SerializeField] private MeshRenderer playerGFX;
+
+    private PlayerController playerController;
+
+    private Vector3 initialPosition;
+
 
     private void Awake()
     {
@@ -20,11 +25,46 @@ public class PlayerHealth : MonoBehaviour
         CalculateHealth();
     }
 
+    private void Start()
+    {
+
+        playerController = GetComponent<PlayerController>();
+
+    }
+
 
     public void OnDamage()
     {
+        initialPosition = transform.position;
         _currentHealth--;
         CalculateHealth();
+
+        // respawn a bit behind the position
+        Respawn();
+    }
+
+
+    private void Respawn()
+    {
+        playerController.enabled = false;
+
+        initialPosition += new Vector3(0, 0, 5);
+
+        transform.position = initialPosition;
+
+        StartCoroutine(RespawnAnimation());
+    }
+
+    private IEnumerator RespawnAnimation()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            playerGFX.enabled = false;
+            yield return new WaitForSeconds(1);
+            playerGFX.enabled = true;
+        }
+
+        playerController.enabled = true;
     }
 
     private void CalculateHealth()

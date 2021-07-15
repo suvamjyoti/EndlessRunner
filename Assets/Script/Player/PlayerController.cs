@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 
 public enum playerPositionState { left, right, center}
@@ -12,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRigidBody;
     private PlayerHealth playerHealth;
     private Vector3 direction;
+
+    [SerializeField] private TextMeshProUGUI Score;
 
     [SerializeField] private Transform leftPosition;
     [SerializeField] private Transform centerPosition;
@@ -29,6 +33,9 @@ public class PlayerController : MonoBehaviour
 
     private playerPositionState playerCurrentState;
     private bool isGrounded;
+
+    private Vector3 ScaleDownFactor = new Vector3(0,1,0);
+    private Coroutine slideCoroutine = null;
 
     private void Start()
     {
@@ -53,6 +60,15 @@ public class PlayerController : MonoBehaviour
         checkIfGrounded();
     }
 
+    private void LateUpdate()
+    {
+        updateScore();
+    }
+
+    private void updateScore()
+    {
+        Score.text = (Mathf.Floor(this.transform.position.z)*5).ToString();
+    }
     private void checkIfGrounded()
     {
         //TODO: use a better system for groun check
@@ -97,7 +113,10 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-
+                    if(slideCoroutine is null)
+                    {
+                        slideCoroutine = StartCoroutine(ScaleDownCoroutine());
+                    }
                     Debug.Log("slide");
                 }
 
@@ -138,6 +157,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator ScaleDownCoroutine()
+    {
+        transform.localScale -= ScaleDownFactor;
+        yield return new WaitForSeconds(1f);
+        transform.localScale += ScaleDownFactor;
+        slideCoroutine = null;
+    }
 
     public void AddDamage()
     {
