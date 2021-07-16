@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private float forwardMovementSpeed=1f;
     [SerializeField] private float jumpforce=10f;
 
+    [SerializeField] private GameManager gameManager;
+
+
     private float gravity = -20;
 
 
@@ -175,6 +178,7 @@ public class PlayerController : MonoBehaviour
 
         //disable character
         gameObject.SetActive(false);
+        gameManager.GameOver();
         //show gameOver popUp
     }
 }

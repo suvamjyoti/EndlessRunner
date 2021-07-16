@@ -310,6 +310,11 @@ PrefabInstance:
       propertyPath: Score
       value: 
       objectReference: {fileID: 1911596305}
+    - target: {fileID: 4151070869003722335, guid: dda169c2efcfda54a9d2041c6174de33,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1926967545}
     - target: {fileID: 6377879939458515457, guid: dda169c2efcfda54a9d2041c6174de33,
         type: 3}
       propertyPath: m_Name
@@ -756,6 +761,7 @@ RectTransform:
   m_Children:
   - {fileID: 2118518456}
   - {fileID: 1911596304}
+  - {fileID: 1926967544}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1049,6 +1055,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911596303}
   m_CullTransparentMesh: 0
+--- !u!1 &1926967543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1926967544}
+  - component: {fileID: 1926967545}
+  m_Layer: 5
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1926967544
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926967543}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1184928116}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1926967545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926967543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ac2837396213a468ae2f41e651b00e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverPrefab: {fileID: 227263195788404288, guid: dcc44c03d0fb330419592b3643fb066d,
+    type: 3}
 --- !u!1 &2085660174
 GameObject:
   m_ObjectHideFlags: 0
