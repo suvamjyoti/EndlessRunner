@@ -15,7 +15,10 @@ public class PlayerController : MonoBehaviour
     private PlayerHealth playerHealth;
     private Vector3 direction;
 
+    private static float coinAmount = 0;
+
     [SerializeField] private TextMeshProUGUI Score;
+    [SerializeField] private TextMeshProUGUI coinText;
 
     [SerializeField] private Transform leftPosition;
     [SerializeField] private Transform centerPosition;
@@ -126,6 +129,19 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    
+
+    //public void resetPosition()
+    //{
+    //    if(playerCurrentState == playerPositionState.left)
+    //    {
+    //        MoveRight();
+    //    }
+    //    else
+    //    {
+    //        MoveLeft();
+    //    }
+    //}
 
     private void MoveRight()
     {
@@ -180,5 +196,12 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(false);
         gameManager.GameOver();
         //show gameOver popUp
+    }
+
+
+    public void AddCoin()
+    {
+        coinAmount++;
+        coinText.text = coinAmount.ToString();
     }
 }
