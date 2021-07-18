@@ -29,10 +29,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameManager gameManager;
 
-
-    private float gravity = -20;
-
-
     private  Vector3 InitialPosition;
     private  Vector3 finalPosition;
     private float dragValue;
@@ -41,19 +37,26 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     [SerializeField] private LayerMask GroundLayer;
 
-    private Vector3 ScaleDownFactor = new Vector3(0,1,0);
+    private Vector3 ScaleDownFactor = new Vector3(0,0.4f,0);
     private Coroutine slideCoroutine = null;
 
     private void Start()
     {
         playerRigidBody = GetComponent<Rigidbody>();
         playerHealth = GetComponent<PlayerHealth>();
+
+        //initial position set
         transform.position = new Vector3(centerPosition, transform.position.y, transform.position.z);
         playerCurrentState = playerPositionState.center;
 
+        //related to screen swipe
         dragValue = Screen.width / 20;
 
+        //default movement direction
         direction = new Vector3(0,0,forwardMovementSpeed);
+
+        //increase speed with time
+        StartCoroutine(IncreaseSpeed());
     }
 
     private void FixedUpdate()
@@ -96,6 +99,23 @@ public class PlayerController : MonoBehaviour
         updateScore();
     }
 
+    IEnumerator IncreaseSpeed()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            if (forwardMovementSpeed < 1.5)
+            {
+                forwardMovementSpeed += 0.025f;
+                direction = new Vector3(0, 0, forwardMovementSpeed);
+            }
+            else
+            {
+                StopCoroutine(IncreaseSpeed());
+            }
+        }
+    }
+
     private void updateScore()
     {
         Score.text = (Mathf.Floor(this.transform.position.z)*5).ToString();
@@ -103,7 +123,6 @@ public class PlayerController : MonoBehaviour
     private void checkIfGrounded()
     {
         isGrounded = Physics.CheckSphere(transform.position, 3,GroundLayer);
-        Debug.Log($"state {isGrounded}");
     }
 
     private void checkForSwipeInput()
@@ -139,7 +158,6 @@ public class PlayerController : MonoBehaviour
                 if (finalPosition.y > InitialPosition.y)
                 {
                     jump();
-                    Debug.Log("jump");
                 }
                 else
                 {
@@ -147,25 +165,12 @@ public class PlayerController : MonoBehaviour
                     {
                         slideCoroutine = StartCoroutine(ScaleDownCoroutine());
                     }
-                    Debug.Log("slide");
                 }
 
             }
         }
     }
     
-
-    //public void resetPosition()
-    //{
-    //    if(playerCurrentState == playerPositionState.left)
-    //    {
-    //        MoveRight();
-    //    }
-    //    else
-    //    {
-    //        MoveLeft();
-    //    }
-    //}
 
     private void MoveRight()
     {
@@ -191,7 +196,8 @@ public class PlayerController : MonoBehaviour
         if(isGrounded)
         {
             isGrounded = false;
-            playerRigidBody.AddForce(Vector3.up * jumpforce , ForceMode.Impulse);
+            //playerRigidBody.AddForce(Vector3.up * jumpforce , ForceMode.Impulse);
+            transform.position = new Vector3(transform.position.x, jumpforce, transform.position.z); 
         }
     }
 
@@ -211,10 +217,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        //disable character
         gameObject.SetActive(false);
         gameManager.GameOver();
-        //show gameOver popUp
     }
 
 

@@ -56,7 +56,6 @@ public class TileManager : MonoBehaviour
     private void moveTile()
     {
         GameObject tile = tileQueue.Dequeue();
-        Debug.Log($"{tile.name}");
         tile.transform.position = transform.forward * distance;
         distance += tileLength;
         tile.transform.rotation = transform.rotation;
