@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Score;
     [SerializeField] private TextMeshProUGUI coinText;
 
-    [SerializeField] private Transform leftPosition;
-    [SerializeField] private Transform centerPosition;
-    [SerializeField] private Transform rightPosition;
+    [SerializeField] private float leftPosition;
+    [SerializeField] private float centerPosition;
+    [SerializeField] private float rightPosition;
 
     [SerializeField]private float forwardMovementSpeed=1f;
     [SerializeField] private float jumpforce=10f;
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     private playerPositionState playerCurrentState;
     private bool isGrounded;
+    [SerializeField] private LayerMask GroundLayer;
 
     private Vector3 ScaleDownFactor = new Vector3(0,1,0);
     private Coroutine slideCoroutine = null;
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRigidBody = GetComponent<Rigidbody>();
         playerHealth = GetComponent<PlayerHealth>();
-        transform.position = centerPosition.position;
+        transform.position = new Vector3(centerPosition, transform.position.y, transform.position.z);
         playerCurrentState = playerPositionState.center;
 
         dragValue = Screen.width / 20;
@@ -58,7 +59,31 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         playerRigidBody.transform.Translate(direction);
+        SetPosition();
     }
+
+    private void SetPosition()
+    {
+        switch (playerCurrentState)
+        {
+            case playerPositionState.center:
+            {
+                transform.position = new Vector3(centerPosition, transform.position.y, transform.position.z);
+                break;
+            }
+            case playerPositionState.left:
+            {
+                transform.position = new Vector3(leftPosition, transform.position.y, transform.position.z);
+                break;
+            }
+            case playerPositionState.right:
+            {
+                transform.position = new Vector3(rightPosition, transform.position.y, transform.position.z);
+                break;
+            }
+        }
+    }
+
 
     void Update()
     {
@@ -77,9 +102,8 @@ public class PlayerController : MonoBehaviour
     }
     private void checkIfGrounded()
     {
-        //TODO: use a better system for groun check
-        //cheap but will work for now
-        isGrounded = (transform.position.y <= 0f) ? true : false;
+        isGrounded = Physics.CheckSphere(transform.position, 3,GroundLayer);
+        Debug.Log($"state {isGrounded}");
     }
 
     private void checkForSwipeInput()
@@ -147,8 +171,6 @@ public class PlayerController : MonoBehaviour
     {
         if (playerCurrentState != playerPositionState.right)
         {
-            //dont need to check in this as even the position transforms are changing position
-            transform.position = rightPosition.position;
             //if currently in center move to right else center
             playerCurrentState = (playerCurrentState == playerPositionState.center) ? playerPositionState.right : playerPositionState.center;
         }
@@ -158,9 +180,6 @@ public class PlayerController : MonoBehaviour
     {
         if (playerCurrentState != playerPositionState.left)
         {
-            
-            //dont need to check in this as even the position transforms are changing position
-            transform.position = leftPosition.position;
             //if currently in center move to left else center
             playerCurrentState = (playerCurrentState == playerPositionState.center) ? playerPositionState.left : playerPositionState.center;
             
