@@ -67,24 +67,27 @@ public class PlayerController : MonoBehaviour
 
     private void SetPosition()
     {
+        Vector3 b = Vector3.zero;
         switch (playerCurrentState)
         {
             case playerPositionState.center:
             {
-                transform.position = new Vector3(centerPosition, transform.position.y, transform.position.z);
+                b = new Vector3(centerPosition, transform.position.y, transform.position.z);
                 break;
             }
             case playerPositionState.left:
             {
-                transform.position = new Vector3(leftPosition, transform.position.y, transform.position.z);
+                b = new Vector3(leftPosition, transform.position.y, transform.position.z);
                 break;
             }
             case playerPositionState.right:
             {
-                transform.position = new Vector3(rightPosition, transform.position.y, transform.position.z);
+                b = new Vector3(rightPosition, transform.position.y, transform.position.z);
                 break;
             }
         }
+
+        transform.position = Vector3.Slerp(transform.position, b, 5f);
     }
 
 
