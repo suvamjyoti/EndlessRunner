@@ -1,4 +1,4 @@
 # EndlessRunner
 
 demo can be seen at :
-http://youtube.com/channel/UCprpmeOGUOvgVTyUm-0QPSQ
+https://youtu.be/B3SuIYL9lKU
